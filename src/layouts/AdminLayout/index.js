@@ -14,8 +14,8 @@ const AdminLayout = ({ children }) => {
   const windowSize = useWindowSize();
   const ref = useRef();
   const configContext = useContext(ConfigContext);
-
   const { collapseMenu, layout, subLayout, headerFixedLayout, configBlock } = configContext.state;
+
   const { dispatch } = configContext;
 
   useOutsideClick(ref, () => {

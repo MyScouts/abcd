@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { Row, Col, Button, Card } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { TextInput } from '../../../components/Widgets/Globals/TextInput';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
+import { postLogin } from '../../../store/auth/actions';
+import { useDispatch, useSelector } from "react-redux";
+import ButtonLoading from '../../../components/Widgets/Globals/ButtonLoading';
+import { AlertContext, AlertType } from '../../../contexts/AlertContext';
+
 
 const schema = yup.object({
   username: yup.string().required(),
@@ -13,11 +18,21 @@ const schema = yup.object({
 
 
 const Signin1 = () => {
+  const dispatch = useDispatch();
+  const { user, isLoading, error } = useSelector((state) => state.AuthReducer);
   const { register, handleSubmit, watch, formState: { errors } } = useForm({
     resolver: yupResolver(schema)
   });
 
-  const onSubmit = data => console.log(data);
+  const { setAlert } = useContext(AlertContext);
+  const onSubmit = data => {
+    dispatch(postLogin(data.username, data.password));
+    setAlert(AlertType.ERROR, "Error", "abcd");
+    if (user) {
+    } else {
+
+    }
+  };
   return (
     <React.Fragment>
       <div className="auth-wrapper">
@@ -42,9 +57,15 @@ const Signin1 = () => {
 
                 <Row>
                   <Col mt={2}>
-                    <Button className="btn-block" color="primary" size="large" type="submit" variant="primary">
-                      Signin
-                    </Button>
+                    <ButtonLoading
+                      isLoading={isLoading}
+                      name="Sign In"
+                      className="btn-block"
+                      color="primary"
+                      size="large"
+                      type="submit"
+                      variant="primary"
+                    />
                   </Col>
                 </Row>
               </form>

@@ -1,15 +1,22 @@
 import { useDispatch as useReduxDispatch, useSelector as useReduxSelector } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
+import { applyMiddleware, compose, createStore } from 'redux';
+import createSagaMiddleware from "redux-saga";
+import rootReducers from './reducers';
+import rootSaga from './saga';
 
-import reducers from './reducers';
+// ==========
+const sagaMiddleware = createSagaMiddleware();
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = configureStore({
-  reducer: reducers,
-  devTools: true
-});
+//============
+const configureStore = createStore(
+  rootReducers,
+  composeEnhancers(applyMiddleware(sagaMiddleware))
+);
+
+sagaMiddleware.run(rootSaga);
 
 export const useSelector = useReduxSelector;
-
 export const useDispatch = () => useReduxDispatch();
 
-export default store;
+export default configureStore;
