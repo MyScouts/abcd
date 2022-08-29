@@ -69,7 +69,7 @@ function AlertProvider({ children }) {
         });
     };
 
-    const value = { message: state.message, title: state.title, type: state.type, setAlert }
+    const value = { message: state.message, title: state.title, type: state.type, setAlert: setAlert }
     return <AlertContext.Provider value={value}>{children}</AlertContext.Provider>
 }
 

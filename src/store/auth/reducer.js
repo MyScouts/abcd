@@ -6,7 +6,7 @@ import {
 
 const initialState = {
     isLoading: false,
-    user: {},
+    user: null,
     error: {
         message: "",
     },
@@ -14,28 +14,21 @@ const initialState = {
 
 const AuthReducer = (state = initialState, action) => {
     switch (action.type) {
-
         case POST_LOGIN:
-            state = { ...state, isLoading: true };
-            break;
+            return { ...state, isLoading: true, error: {} };
         case POST_LOGIN_SUCCESS:
-            state = { ...state, user: action.payload, isLoading: false };
-            break;
-
+            return { ...state, user: action.payload, isLoading: false };
         case POST_LOGIN_FAIL:
-            state = {
+            return {
                 ...state,
                 error: {
                     message: action.payload,
                 },
                 isLoading: false,
             };
-            break;
         default:
-            state = { ...state };
-            break;
+            return { ...state };
     }
-    return state;
 };
 
 export default AuthReducer;

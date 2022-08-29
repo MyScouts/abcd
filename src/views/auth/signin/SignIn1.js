@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { Row, Col, Button, Card } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
@@ -18,20 +18,29 @@ const schema = yup.object({
 
 
 const Signin1 = () => {
-  const dispatch = useDispatch();
-  const { user, isLoading, error } = useSelector((state) => state.AuthReducer);
+  // 
   const { register, handleSubmit, watch, formState: { errors } } = useForm({
     resolver: yupResolver(schema)
   });
 
+  // 
+  const dispatch = useDispatch();
   const { setAlert } = useContext(AlertContext);
+  const { user, isLoading, error } = useSelector((state) => state.AuthReducer);
+
+  useEffect(() => {
+    if (!isLoading && (error.message || user)) {
+      if (user) {
+      } else {
+        setAlert(AlertType.ERROR, error.message, "Login Fail");
+      }
+    }
+
+  }, [isLoading, error])
+  // 
   const onSubmit = data => {
     dispatch(postLogin(data.username, data.password));
-    setAlert(AlertType.ERROR, "Error", "abcd");
-    if (user) {
-    } else {
 
-    }
   };
   return (
     <React.Fragment>

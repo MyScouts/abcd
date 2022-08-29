@@ -36,7 +36,7 @@ export const renderRoutes = (routes = []) => (
 
 function PrivateRoute({ children, ...rest }) {
   let location = useLocation();
-  const isLoggedIn = false;
+  const isLoggedIn = true;
   if (isLoggedIn) return <Route {...rest}>{children}</Route>;
   return (
     <Redirect

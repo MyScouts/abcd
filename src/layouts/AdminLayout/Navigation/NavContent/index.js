@@ -8,6 +8,7 @@ import { ConfigContext } from '../../../../contexts/ConfigContext';
 import * as actionType from '../../../../store/actions';
 
 const NavContent = ({ navigation }) => {
+  console.log("🚀 ~ file: index.js ~ line 11 ~ NavContent ~ navigation", navigation)
   const [scrollWidth, setScrollWidth] = useState(0);
   const [prevDisable, setPrevDisable] = useState(true);
   const [nextDisable, setNextDisable] = useState(false);

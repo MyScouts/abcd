@@ -14,7 +14,7 @@ function* onPostLogin({ payload: { password, username } }) {
         const response = yield call(AuthService.postLogin, username, password);
         yield put(postLoginSuccess(response));
     } catch (error) {
-        yield put(postLoginFail(error.response.data.message[0]));
+        yield put(postLoginFail(error?.response?.data?.message[0] || "Fuck you"));
     }
 }
 
