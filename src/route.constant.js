@@ -8,3 +8,8 @@ export const PUBLIC_ROUTE = {
     PAGE_500: '/500',
     AUTH0_CALLBACK: '/auth0loginCallback',
 };
+
+export const PRIVATE_ROUTE = {
+    DASHBOARD: '/dashboard',
+    
+};

@@ -1,6 +1,6 @@
 import { takeLatest, put, call } from "redux-saga/effects";
 
-import { POST_LOGIN, POST_LOGIN_FAIL, POST_LOGIN_SUCCESS } from "./actionTypes";
+import { POST_LOGIN, } from "./actionTypes";
 
 import {
     postLoginSuccess,
@@ -12,7 +12,7 @@ import { AuthService } from "../../data/service/auth.service";
 function* onPostLogin({ payload: { password, username } }) {
     try {
         const response = yield call(AuthService.postLogin, username, password);
-        yield put(postLoginSuccess(response));
+        yield put(postLoginSuccess(response.data));
     } catch (error) {
         yield put(postLoginFail(error?.response?.data?.message[0] || "Fuck you"));
     }

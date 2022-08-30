@@ -9,7 +9,6 @@ export const AlertType = {
 }
 
 const initialState = {
-    title: "",
     message: "",
     type: AlertType.IDE
 };
@@ -20,7 +19,6 @@ function alertReducer(state, action) {
             return {
                 ...state,
                 message: action.payload.message,
-                title: action.payload.title,
                 type: AlertType.ERROR
             }
         }
@@ -28,7 +26,6 @@ function alertReducer(state, action) {
             return {
                 ...state,
                 message: action.payload.message,
-                title: action.payload.title,
                 type: AlertType.SUCCESS
             }
         }
@@ -36,7 +33,6 @@ function alertReducer(state, action) {
             return {
                 ...state,
                 message: action.payload.message,
-                title: action.payload.title,
                 type: AlertType.INFO
             }
         }
@@ -58,12 +54,11 @@ const AlertContext = createContext(initialState);
 function AlertProvider({ children }) {
     const [state, dispatch] = useReducer(alertReducer, initialState)
 
-    const setAlert = (type, message, title) => {
+    const setAlert = (type, message) => {
         dispatch({
             type: type,
             payload: {
                 message: message,
-                title: title,
                 type: type
             },
         });

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useHistory } from 'react-router-dom';
 import { Row, Col, Button, Card } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { TextInput } from '../../../components/Widgets/Globals/TextInput';
@@ -9,6 +9,8 @@ import { postLogin } from '../../../store/auth/actions';
 import { useDispatch, useSelector } from "react-redux";
 import ButtonLoading from '../../../components/Widgets/Globals/ButtonLoading';
 import { AlertContext, AlertType } from '../../../contexts/AlertContext';
+import { PRIVATE_ROUTE } from '../../../route.constant';
+import { useToasts } from 'react-toast-notifications';
 
 
 const schema = yup.object({
@@ -27,12 +29,18 @@ const Signin1 = () => {
   const dispatch = useDispatch();
   const { setAlert } = useContext(AlertContext);
   const { user, isLoading, error } = useSelector((state) => state.AuthReducer);
+  const history = useHistory();
+  const { addToast } = useToasts()
 
   useEffect(() => {
     if (!isLoading && (error.message || user)) {
       if (user) {
+        addToast("Login is successfully!", { appearance: 'success' });
+        history.push(PRIVATE_ROUTE.DASHBOARD);
+
       } else {
-        setAlert(AlertType.ERROR, error.message, "Login Fail");
+        addToast(error.message, { appearance: 'error' });
+        // setAlert(AlertType.ERROR, error.message);
       }
     }
 

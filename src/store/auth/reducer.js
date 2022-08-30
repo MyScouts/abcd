@@ -1,3 +1,4 @@
+import { saveToken } from "../../data/local/local.storage";
 import {
     POST_LOGIN,
     POST_LOGIN_FAIL,
@@ -7,6 +8,7 @@ import {
 const initialState = {
     isLoading: false,
     user: null,
+    successToken: null,
     error: {
         message: "",
     },
@@ -17,7 +19,9 @@ const AuthReducer = (state = initialState, action) => {
         case POST_LOGIN:
             return { ...state, isLoading: true, error: {} };
         case POST_LOGIN_SUCCESS:
-            return { ...state, user: action.payload, isLoading: false };
+            const token = action.payload.successToken
+            saveToken(token);
+            return { ...state, user: action.payload.user, successToken: token, isLoading: false };
         case POST_LOGIN_FAIL:
             return {
                 ...state,

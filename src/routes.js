@@ -5,7 +5,7 @@ import Loader from './components/Loader/Loader';
 import AdminLayout from './layouts/AdminLayout';
 
 import { BASE_URL } from './config/constant';
-import { PUBLIC_ROUTE } from './route.constant';
+import { PRIVATE_ROUTE, PUBLIC_ROUTE } from './route.constant';
 import GuesLayout from './layouts/GuesLayout';
 
 
@@ -16,11 +16,11 @@ export const renderRoutes = (routes = []) => (
   // <Suspense fallback={<Loader />}>
   <Suspense fallback={<Loader />}>
     <Switch>
-        {publicRoutes.map((route, index) => (
-          <Route key={index} path={route.path} exact={route.exact}>
-            <route.component />
-          </Route>
-        ))}
+      {publicRoutes.map((route, index) => (
+        <Route key={index} path={route.path} exact={route.exact}>
+          <route.component />
+        </Route>
+      ))}
 
       <AdminLayout>
         {privateRouters.map((route, i) => (
@@ -35,7 +35,7 @@ export const renderRoutes = (routes = []) => (
 
 
 function PrivateRoute({ children, ...rest }) {
-  let location = useLocation();
+  const location = useLocation();
   const isLoggedIn = true;
   if (isLoggedIn) return <Route {...rest}>{children}</Route>;
   return (
@@ -68,7 +68,7 @@ const publicRoutes = [
 const privateRouters = [
   {
     exact: true,
-    path: '/dashboard',
+    path: PRIVATE_ROUTE.DASHBOARD,
     component: lazy(() => import('./views/dashboard/DashDefault'))
   },
   {
